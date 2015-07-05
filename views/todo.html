@@ -1,0 +1,22 @@
+<div ng-controller="ToDoCtrl">
+  <h2>Tasks</h2>
+  <a href="#/">Tasks</a>
+  <a href="#/archive">Archive</a>
+  <p ng-show="tasks.length === 0">
+    - Empty List -
+  </p>
+  <div class="checkbox" ng-repeat="task in tasks | filter: notArchived">
+    <label ng-class="{'task-done': task.done}">
+      <input type="checkbox" ng-model="task.done"> {{ task.name }}
+    </label>
+  </div>
+  <form name="newTask">
+    <div class="form-group" ng-class="{ 'has-error': newTask.taskName.$invalid }">
+      <label>Create new task</label>
+      <input type="text" name="taskName" class="form-control" placeholder="Task name" ng-model="newTaskName" ng-minlength="0" required>
+    </div>
+    <button class="btn btn-default" ng-click="createNewTask()">New Task</button>
+  </form>
+  <button class="btn btn-default" ng-show="!archive" ng-click="archiveDoneTasks()">Archive Done Tasks</button>
+
+</div>

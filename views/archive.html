@@ -1,0 +1,13 @@
+<div ng-controller="ToDoCtrl">
+  <h2>Archive</h2>
+  <a href="#/">Tasks</a>
+  <a href="#/archive">Archive</a>
+  <p ng-show="tasks.length === 0">
+    - Empty List -
+  </p>
+  <div class="checkbox" ng-repeat="task in tasks | filter: archived">
+    <label ng-class="{'task-done': task.done}">
+      <input type="checkbox" ng-model="task.done"> {{ task.name }}
+    </label>
+  </div>
+</div>
