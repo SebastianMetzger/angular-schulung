@@ -1,15 +1,20 @@
 <div ng-controller="ToDoCtrl">
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#/">Tasks <span class="badge">{{ taskCount }}</span></a></li>
+    <li role="presentation"><a href="#/archive">Archive <span class="badge">{{ archivedTaskCount }}</a></li>
+  </ul>   
   <h2>Tasks</h2>
-  <a href="#/">Tasks</a>
-  <a href="#/archive">Archive</a>
-  <p ng-show="tasks.length === 0">
-    - Empty List -
-  </p>
-  <div class="checkbox" ng-repeat="task in tasks | filter: notArchived">
-    <label ng-class="{'task-done': task.done}">
-      <input type="checkbox" ng-model="task.done"><b>{{task.user.name}}</b> : {{ task.name }}
-    </label>
+  <hr/>
+  <div class="alert alert-info" ng-show="(tasks | filter:{archived:false}).length === 0" role="alert">Nothing to do - Please create a new task</div>
+  <div class="list-group">
+    <div class="checkbox  list-group-item" ng-class="{'disabled': task.done}" ng-repeat="task in tasks | filter: notArchived">
+      <label ng-class="{'task-done': task.done}">
+        <input type="checkbox" ng-model="task.done"><b>{{task.user.name}}</b> : {{ task.name }}
+      </label>
+    </div>
   </div>
+  <hr/>
+  <h2>Create a new task</h2>
   <form name="newTaskForm">
     <div class="form-group" ng-class="{ 'has-error': newTaskForm.taskName.$invalid }">
       <label>Name the task</label>
@@ -20,8 +25,7 @@
       <select name="taskUser" class="form-control" ng-model="newTask.user" ng-options="user as user.name for user in users" required>
       </select>
     </div>
-    <button class="btn btn-default" ng-click="createNewTask()">New Task</button>
+    <button class="btn btn-default" ng-show="newTaskForm.$valid" ng-click="createNewTask()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Task</button>
+    <button class="btn btn-default" ng-show="(tasks | filter:{archived:false} | filter:{done:true}).length > 0" ng-click="archiveDoneTasks()"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Archive Checked Tasks</button>
   </form>
-  <button class="btn btn-default" ng-show="!archive" ng-click="archiveDoneTasks()">Archive Done Tasks</button>
-
 </div>

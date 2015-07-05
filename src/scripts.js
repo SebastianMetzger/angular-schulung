@@ -52,6 +52,7 @@ app.factory('Tasks', function() {
 
 app.controller('ToDoCtrl', function($scope, $rootScope, $location, $http, Tasks) {
   $scope.tasks = Tasks.getTasks();
+  updateCounts();
   $scope.newTask = {
     name: '',
     user: ''
@@ -60,7 +61,15 @@ app.controller('ToDoCtrl', function($scope, $rootScope, $location, $http, Tasks)
 
   $scope.$watch('tasks', function(newTasks) {
     Tasks.setTasks(newTasks);
+    updateCounts();
   }, true);
+
+  function updateCounts(){
+    $scope.taskCount = $scope.tasks.reduce(function(count, task){
+      return count + (task.archived ? 0 : 1);
+    },0)
+    $scope.archivedTaskCount = $scope.tasks.length - $scope.taskCount;
+  }
 
   $http.get('/server/users.json').
   success(function(data) {
