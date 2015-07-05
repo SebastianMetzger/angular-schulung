@@ -17,6 +17,21 @@
   <div class="container">
     <div class="row">
       <h1>AngularJS Workshop</h1>
+      <section ng-app="ToDoApp">
+        <div ng-controller="ToDoCtrl">
+          <p ng-if="tasks.length === 0">
+            Nothing to do =)
+          </p>
+          <div class="checkbox" ng-repeat="task in tasks">
+            <label ng-class="{'task-done': task.done}">
+              <input type="checkbox" ng-model="task.done"> {{ task.name }}
+            </label>
+          </div>
+          <input ng-model="newTaskName"/>
+          <button ng-click="createNewTask()">New Task</button>
+          <button ng-click="deleteDoneTasks()">Delete Done Tasks</button>
+        </div>
+      </section>
     </div>
   </div>
   <script src="lib/angular.js"></script>
