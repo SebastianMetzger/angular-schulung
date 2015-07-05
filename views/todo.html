@@ -7,13 +7,18 @@
   </p>
   <div class="checkbox" ng-repeat="task in tasks | filter: notArchived">
     <label ng-class="{'task-done': task.done}">
-      <input type="checkbox" ng-model="task.done"> {{ task.name }}
+      <input type="checkbox" ng-model="task.done"><b>{{task.user.name}}</b> : {{ task.name }}
     </label>
   </div>
-  <form name="newTask">
-    <div class="form-group" ng-class="{ 'has-error': newTask.taskName.$invalid }">
-      <label>Create new task</label>
-      <input type="text" name="taskName" class="form-control" placeholder="Task name" ng-model="newTaskName" ng-minlength="0" required>
+  <form name="newTaskForm">
+    <div class="form-group" ng-class="{ 'has-error': newTaskForm.taskName.$invalid }">
+      <label>Name the task</label>
+      <input type="text" name="taskName" class="form-control" placeholder="Task name" ng-model="newTask.name" ng-minlength="0" required>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error': newTaskForm.taskUser.$error.required }">
+      <label>Name the user</label>
+      <select name="taskUser" class="form-control" ng-model="newTask.user" ng-options="user as user.name for user in users" required>
+      </select>
     </div>
     <button class="btn btn-default" ng-click="createNewTask()">New Task</button>
   </form>

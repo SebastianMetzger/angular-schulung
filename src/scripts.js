@@ -33,44 +33,54 @@ app.factory('Tasks', function() {
   var _tasks = [];
   try {
     _tasks = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if(_tasks === null || _tasks === undefined){
-    _tasks = [];
+    if (_tasks === null || _tasks === undefined) {
+      _tasks = [];
     }
   } catch (e) {
     _tasks = [];
   }
   return {
     setTasks: function(tasks) {
-      debugger;
       _tasks = tasks;
       localStorage.setItem(LOCAL_STORAGE_KEY, angular.toJson(tasks));
     },
     getTasks: function() {
-      debugger;
       return _tasks;
     }
   };
 });
 
-app.controller('ToDoCtrl', function($scope, $rootScope, $location, Tasks) {
+app.controller('ToDoCtrl', function($scope, $rootScope, $location, $http, Tasks) {
   $scope.tasks = Tasks.getTasks();
-  $scope.newTaskName = '';
+  $scope.newTask = {
+    name: '',
+    user: ''
+  };
   $scope.archive = false;
 
   $scope.$watch('tasks', function(newTasks) {
     Tasks.setTasks(newTasks);
   }, true);
 
+  $http.get('/server/users.json').
+  success(function(data) {
+    $scope.users = data.users;
+  });
+
   $scope.createNewTask = function() {
-    if ($scope.newTask.taskName.$invalid) {
+    if ($scope.newTaskForm.taskName.$invalid || $scope.newTaskForm.taskUser.$error.required) {
       return;
     }
     $scope.tasks.push({
-      name: $scope.newTaskName,
+      name: $scope.newTask.name,
+      user: $scope.newTask.user,
       done: false,
       archived: false
     });
-    $scope.newTaskName = '';
+    $scope.newTask = {
+      name: '',
+      user: ''
+    };
   };
 
   $scope.archiveDoneTasks = function() {
@@ -80,7 +90,7 @@ app.controller('ToDoCtrl', function($scope, $rootScope, $location, Tasks) {
     });
   };
 
-  $scope.notArchived = function(task){
+  $scope.notArchived = function(task) {
     return !task.archived;
   }
 });
@@ -93,7 +103,7 @@ app.controller('ArchiveCtrl', function($scope, $rootScope, $location, Tasks) {
     Tasks.setTasks(newTasks);
   }, true);
 
-  $scope.archived = function(task){
+  $scope.archived = function(task) {
     return task.archived;
   }
 });
