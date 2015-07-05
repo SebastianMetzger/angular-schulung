@@ -17,6 +17,12 @@
   <div class="container">
     <div class="row">
       <h1>AngularJS Workshop</h1>
+      <section ng-app="HelloAngular">
+        {{ 1 + 2 }}
+        <div ng-controller="HelloAngularCtrl">
+          {{ message }}
+        </div>
+      </section>
     </div>
   </div>
   <script src="lib/angular.js"></script>
