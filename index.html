@@ -19,22 +19,29 @@
       <h1>AngularJS Workshop</h1>
       <section ng-app="ToDoApp">
         <div ng-controller="ToDoCtrl">
-          <p ng-if="tasks.length === 0">
-            Nothing to do =)
+          <h2 ng-show="archive">Archive</h2>
+          <h2 ng-show="!archive">Active</h2>
+          <a href="#/">Tasks</a>
+          <a href="#/archive">Archive</a>
+          <p ng-show="tasks.length === 0">
+            - Empty List -
           </p>
-          <div class="checkbox" ng-repeat="task in tasks">
+          <div class="checkbox" ng-repeat="task in tasks | byArchived:archive">
             <label ng-class="{'task-done': task.done}">
               <input type="checkbox" ng-model="task.done"> {{ task.name }}
             </label>
           </div>
-          <input ng-model="newTaskName"/>
-          <button ng-click="createNewTask()">New Task</button>
-          <button ng-click="deleteDoneTasks()">Delete Done Tasks</button>
+          <div ng-show="!archive">
+            <input ng-model="newTaskName"/>
+            <button ng-click="createNewTask()">New Task</button>
+          </div>
+          <button ng-show="!archive" ng-click="archiveDoneTasks()">Archive Done Tasks</button>
         </div>
       </section>
     </div>
   </div>
   <script src="lib/angular.js"></script>
+  <script src="lib/angular-route.js"></script>
   <script src="src/scripts.js"></script>
 </body>
 </html>
