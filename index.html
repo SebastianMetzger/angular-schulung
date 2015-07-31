@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>AngularJS </title>
+  <title>AngularJS</title>
 
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/bootstrap.css">
@@ -17,9 +17,15 @@
   <div class="container">
     <div class="row">
       <h1>AngularJS Workshop</h1>
+      <div ng-app="ToDoApp">
+        <a href="#/tasks">Tasks</a>
+        <a href="#/users">Users</a>
+        <div ng-view></div>
+      </div>
     </div>
   </div>
   <script src="lib/angular.js"></script>
+  <script src="lib/angular-route.js"></script>
   <script src="src/scripts.js"></script>
 </body>
 </html>

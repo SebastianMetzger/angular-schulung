@@ -1,0 +1,20 @@
+Architectural Rules of AngularJS
+================================
+
+# Big Picture:
+- One Controller per screen/route for most use cases enough!
+- Model === Service
+-- Create a Service per Model Entity
+
+# Model:
+- Auto persist model via $watch.$on
+- Use $rootScope as event system
+
+# Scope:
+- Don't use scope to directly share data between multiple controllers
+
+# Views:
+- No complex logic or data manipulation in the view, only view related things!
+
+# HTTP
+- Learn and faciliate the promise pattern awesomeness

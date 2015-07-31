@@ -1,0 +1,13 @@
+<h1>User Verwaltung</h1>
+<p ng-repeat="user in users">
+  <a href="#/users/{{user.id}}">{{user.name}}</a>
+  <button ng-click="deleteUser(user.id, $index)">Löschen</button>
+</p>
+
+<form ng-submit="createNewUser()">
+  <input ng-model="newUser" required/>
+  <input type="submit" value="User erstellen"/>
+</form>
+
+<input ng-model="userId" />
+<button ng-click="go('/users/' + userId)">Auswählen</button>

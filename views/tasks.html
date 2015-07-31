@@ -1,0 +1,28 @@
+<div>
+  <select ng-model="filterByUser" ng-options="user as user.name for user in users" required>
+    <option value="">Alle</option>
+  </select>
+  <div ng-if="(tasks | filter:{checked:false}).length > 0">
+    <h2>Offen</h2>
+    <p ng-repeat="task in tasks | filter:{checked:false, user:filterByUser.name}">
+      <input type="checkbox" ng-model="task.checked" />
+      {{ task.user + ': ' + task.title }}
+    </p>
+    <hr/>
+  </div>
+  <div ng-if="(tasks | filter:{checked:true}).length > 0">
+    <h2>Abgeschlossen</h2>
+    <p ng-repeat="task in tasks | filter:{checked:true, user:filterByUser.name}" ng-class="{strikethrough: task.user === 'Hans'}">
+      <input type="checkbox" ng-model="task.checked" />
+      {{ task.user + ': ' + task.title }}
+      <a ng-click="removeTask($index)">Remove</a>
+      <!-- <a ng-click="tasks = tasks.splice($index,1)">Remove</a> -->
+    </p>
+    <hr/>
+  </div>
+  <form ng-submit="createNewTask()">
+    <input ng-model="newTask" required/>
+    <select ng-model="newTaskUser" ng-options="user as user.name for user in users" required></select>
+    <input type="submit" value="Task erstellen"/>
+  </form>
+</div>
